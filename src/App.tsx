@@ -72,21 +72,13 @@ export const App: React.FC = () => {
       return;
     }
 
-    const newTempTodo = {
-      title: inputChange.trim(),
-      userId: USER_ID,
-      completed: false,
-      id: 0,
-    };
-
-    setTempTodo(newTempTodo);
-
     const newTodo = {
       title: inputChange.trim(),
       userId: USER_ID,
       completed: false,
     };
 
+    setTempTodo({ ...newTodo, id: 0 });
     setLoadingTodoIds(currentIds => [...currentIds, 0]);
 
     addTodo(newTodo)
@@ -130,16 +122,16 @@ export const App: React.FC = () => {
 
   const handleRenameTodo = (
     todoId: number,
-    updateChanges: string,
+    newTitle: string,
     todoTitle: string,
   ) => {
-    if (!updateChanges.length) {
+    if (!newTitle.length) {
       handleDelete(todoId);
 
       return;
     }
 
-    if (updateChanges === todoTitle) {
+    if (newTitle === todoTitle) {
       setEditingTodo(null);
 
       return;
@@ -149,12 +141,12 @@ export const App: React.FC = () => {
 
     setTodos(currentTodos =>
       currentTodos.map(todo =>
-        todo.id === todoId ? { ...todo, title: updateChanges } : todo,
+        todo.id === todoId ? { ...todo, title: newTitle } : todo,
       ),
     );
 
     const updates = {
-      title: updateChanges.trim(),
+      title: newTitle.trim(),
     };
 
     updateTodo(todoId, updates)

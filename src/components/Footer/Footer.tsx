@@ -23,11 +23,9 @@ export const Footer: React.FC<Props> = ({
   const activeTodosCount = todos.filter(todo => !todo.completed).length;
 
   const handleDeleteCompletedTodos = () => {
-    const completedTodos: Todo[] = todos.filter(todo => todo.completed);
-
-    const completedTodosIds = completedTodos.map(
-      completedTodo => completedTodo.id,
-    );
+    const completedTodosIds = todos
+      .filter(todo => todo.completed)
+      .map(completedTodo => completedTodo.id);
 
     completedTodosIds.forEach(completedTodoId => {
       onDelete(completedTodoId);

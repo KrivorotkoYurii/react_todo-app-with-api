@@ -28,7 +28,9 @@ export const TodoItem: React.FC<Props> = ({
 }) => {
   const [updateChanges, setUpdateChanges] = useState('');
 
-  const isBeingEdited = editingTodo?.id === todo.id;
+  const { id, title } = todo;
+
+  const isBeingEdited = editingTodo?.id === id;
 
   const editingField = useRef<HTMLInputElement>(null);
 
@@ -37,21 +39,23 @@ export const TodoItem: React.FC<Props> = ({
       completed: event.target.checked,
     };
 
-    toggleTodo(todo.id, updates);
+    toggleTodo(id, updates);
   };
 
   const handleRenameTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    renameTodo(todo.id, updateChanges, todo.title);
+    renameTodo(id, updateChanges, title);
   };
 
-  document.addEventListener('keyup', event => {
-    if (event.key === 'Escape') {
-      setEditingTodo(null);
-      setUpdateChanges(todo.title);
-    }
-  });
+  if (editingTodo) {
+    document.addEventListener('keyup', event => {
+      if (event.key === 'Escape') {
+        setEditingTodo(null);
+        setUpdateChanges(todo.title);
+      }
+    });
+  }
 
   useEffect(() => {
     if (isBeingEdited) {
@@ -82,7 +86,7 @@ export const TodoItem: React.FC<Props> = ({
             value={updateChanges}
             ref={editingField}
             onChange={event => setUpdateChanges(event.target.value)}
-            onBlur={() => renameTodo(todo.id, updateChanges, todo.title)}
+            onBlur={() => renameTodo(id, updateChanges, title)}
           />
         </form>
       ) : (
@@ -92,7 +96,7 @@ export const TodoItem: React.FC<Props> = ({
             className="todo__title"
             onDoubleClick={() => {
               setEditingTodo(todo);
-              setUpdateChanges(todo.title);
+              setUpdateChanges(title);
             }}
           >
             {todo.title}
@@ -102,7 +106,7 @@ export const TodoItem: React.FC<Props> = ({
             type="button"
             className="todo__remove"
             data-cy="TodoDelete"
-            onClick={() => onDelete(todo.id)}
+            onClick={() => onDelete(id)}
           >
             ×
           </button>

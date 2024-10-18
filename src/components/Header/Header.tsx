@@ -4,22 +4,22 @@ import { Todo } from '../../types/Todo';
 
 interface Props {
   todos: Todo[];
+  inputChange: string;
+  focusOnChange: boolean;
+  loadingTodoIds: number[];
+  onInputChange: Dispatch<SetStateAction<string>>;
   toggleTodo: (todoId: number, updates: Partial<Todo>) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  inputChange: string;
-  loadingTodoIds: number[];
-  focusOnChange: boolean;
-  onInputChange: Dispatch<SetStateAction<string>>;
 }
 
 export const Header: React.FC<Props> = ({
   todos,
   toggleTodo,
-  handleSubmit,
   inputChange,
-  loadingTodoIds,
-  focusOnChange,
+  handleSubmit,
   onInputChange,
+  focusOnChange,
+  loadingTodoIds,
 }) => {
   const todoInputField = useRef<HTMLInputElement>(null);
 
