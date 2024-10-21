@@ -30,15 +30,6 @@ export const App: React.FC = () => {
   );
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
 
-  useEffect(() => {
-    setErrorNotification(Errors.DEFAULT);
-    getTodos()
-      .then(setTodos)
-      .catch(() => {
-        handleError(Errors.LOADING, setErrorNotification);
-      });
-  }, []);
-
   const handleDelete = (todoId: number) => {
     setLoadingTodoIds(currentIds => [...currentIds, todoId]);
 
@@ -166,6 +157,19 @@ export const App: React.FC = () => {
       })
       .finally(() => setLoadingTodoIds(ids => ids.filter(id => id !== todoId)));
   };
+
+  const firstLoad = () => {
+    setErrorNotification(Errors.DEFAULT);
+    getTodos()
+      .then(setTodos)
+      .catch(() => {
+        handleError(Errors.LOADING, setErrorNotification);
+      });
+  };
+
+  useEffect(() => {
+    firstLoad();
+  }, []);
 
   return (
     <div className="todoapp">

@@ -25,12 +25,6 @@ export const Header: React.FC<Props> = ({
 
   const allCompleted = todos.every(todo => todo.completed);
 
-  useEffect(() => {
-    if (todoInputField.current) {
-      todoInputField.current.focus();
-    }
-  }, [focusOnChange]);
-
   const handleToggleAll = () => {
     if (allCompleted) {
       todos.forEach(todo => {
@@ -52,6 +46,12 @@ export const Header: React.FC<Props> = ({
       });
     }
   };
+
+  useEffect(() => {
+    if (todoInputField.current) {
+      todoInputField.current.focus();
+    }
+  }, [focusOnChange]);
 
   return (
     <header className="todoapp__header">
